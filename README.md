@@ -1,34 +1,75 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+this was created for the purpose of learning REACT-HOOK-FORM
 
-## Getting Started
+\***\*\*\*\*** every form has few moving parts that keeps changing from the time a user loads the form to the time they submit it.
 
-First, run the development server:
+- current value of the form
+- whether the field has been interacted with
+- whether a fields value has changed
+- whether a form is invalid
+- whether the field contains errors
+  **\*** all the above are called FORM STATE \*\*\*\*
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+      <!--  -->
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+  \*\*\*\* const form = useForm()
+  // to track the form state with react-hook-form use 👇
+  const { register } = form
+  const { name, ref, onChange, onBlur } = register('username')
+  instead of doing the below 👇
+  <input
+        type="text"
+        id="username"
+        name={name}
+        ref={ref}
+        onChange={onChange}
+        onBlur={onBlur}
+        className="w-96 border border-black"
+    />
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+        you can do 👇
+        <!-- spread the register -->
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+  <input
+  type="text"
+  id="username"
+  {...register('fieldname')}
+  className="w-96 border border-black"
+  />
 
-## Learn More
+  // to verify if react-hook-form is truly working
+  install 👉 npm install -D @hookform/devtools
 
-To learn more about Next.js, take a look at the following resources:
+import {DevTools} from '@hookform/devtools'
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+pass control into form object
+const { register, control} = form
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+then pass DevTools after the closing form tag
 
-## Deploy on Vercel
+<div>
+    <form>
+        <input/>
+    <form>
+    <!-- this will allow you see how react-hook-form tracks your form -->
+    <DevTools control={control}>
+</div>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+\*\*\*\* to submit the form
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+const { register, control, handleSubmit} = form
+
+<!-- define the data types if you are using typescript -->
+
+const onSubmit=(data:FormValues)=>{
+
+<!-- your logics -->
+
+}
+
+<div>
+    <form onSubmit={handleSubmit(onSubmit)}>
+        <input/>
+    <form>
+    <!-- this will allow you see how react-hook-form tracks your form -->
+    <DevTools control={control}>
+</div>
